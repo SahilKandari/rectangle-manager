@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Canvas from "./Canvas";
 
 const RectangleManager = () => {
   const [rectangles, setRectangles] = useState([]);
   const [selectedRect, setSelectedRect] = useState(null);
+  const [backgroundImage, setBackgroundImage] = useState(null);
+  const canvasRef = useRef(null);
 
   const handleRectanglesChange = (newRectangles) => {
     setRectangles(newRectangles);
@@ -52,7 +54,27 @@ const RectangleManager = () => {
     a.click();
     URL.revokeObjectURL(url);
   };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
   
+      reader.onload = (event) => {
+        const imageUrl = event.target.result;
+        setBackgroundImage(imageUrl);
+      };
+  
+      reader.readAsDataURL(file);
+    }
+  };
+  
+  const canvasStyle = {
+    backgroundImage: `url(${backgroundImage})`,
+    backgroundSize: "cover", // or "contain" depending on your preference
+    backgroundRepeat: "no-repeat",
+  };
+
   return (
     <div className="container">
       <h1>Rectangle Manager</h1>
@@ -62,7 +84,9 @@ const RectangleManager = () => {
         selectedRect={selectedRect}
         setSelectedRect={setSelectedRect}
         onDelete={handleDeleteSelectedRect}
+        canvasStyle={canvasStyle}
       />
+      <input type="file" accept="image/*" onChange={handleImageUpload} />
       <button onClick={handleSaveJSON}>Save Rectangles as JSON (Press 's')</button>
     </div>
   );

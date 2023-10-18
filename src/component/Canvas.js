@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 
-const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect, onDelete }) => {
+const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect, onDelete, canvasStyle }) => {
   const canvasRef = useRef(null);
   const [isCreating, setIsCreating] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -57,11 +57,11 @@ const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect,
           const newWidth = e.offsetX - startX;
           const newHeight = e.offsetY - startY;
           setNewRect({ x: startX, y: startY, w: newWidth, h: newHeight });
-        } else if (isDragging) {
+        } else if (isDragging && selectedRect) {
           // Move the selected rectangle to the new position
           const { x, y, offsetX, offsetY } = selectedRect;
           setSelectedRect({ ...selectedRect, x: e.offsetX - offsetX, y: e.offsetY - offsetY });
-        } else if (isResizing) {
+        } else if (isResizing && selectedRect) {
           // Resize the selected rectangle based on the resize direction
           const { x, y, w, h } = selectedRect;
           let newRect = { ...selectedRect };
@@ -81,7 +81,7 @@ const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect,
           }
           setSelectedRect(newRect);
         }
-      };
+      };      
 
       const handleMouseUp = () => {
         if (isCreating) {
@@ -186,7 +186,7 @@ const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect,
     }
   };
 
-  return <canvas ref={canvasRef} width={800} height={600} />;
+  return <canvas ref={canvasRef} width={800} height={600} style={canvasStyle} />;
 };
 
 export default Canvas;
