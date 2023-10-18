@@ -13,7 +13,8 @@ const RectangleManager = () => {
 
   const handleDeleteSelectedRect = () => {
     if (selectedRect) {
-      setRectangles(rectangles.filter((rect) => rect !== selectedRect));
+      const updatedRectangles = rectangles.filter((rect) => rect !== selectedRect);
+      setRectangles(updatedRectangles);
       setSelectedRect(null);
     }
   };
@@ -29,7 +30,6 @@ const RectangleManager = () => {
       }
     };
 
-    // Add event listener for keyboard shortcuts
     window.addEventListener("keydown", handleKeyDown);
 
     return () => {
@@ -45,7 +45,6 @@ const RectangleManager = () => {
 
     const jsonString = JSON.stringify(jsonRepresentation);
 
-    // You can also provide a download link for the user to save the JSON.
     const blob = new Blob([jsonString], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -71,7 +70,7 @@ const RectangleManager = () => {
   
   const canvasStyle = {
     backgroundImage: `url(${backgroundImage})`,
-    backgroundSize: "cover", // or "contain" depending on your preference
+    backgroundSize: "cover",
     backgroundRepeat: "no-repeat",
   };
 

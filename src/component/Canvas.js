@@ -40,7 +40,7 @@ const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect,
             setIsDragging(true);
           }
         } else {
-          setSelectedRect(null); // Deselect if no rectangle is clicked
+          setSelectedRect(null);
           // Start creating a new rectangle at the mouse position
           const startX = e.offsetX;
           const startY = e.offsetY;
@@ -99,7 +99,6 @@ const Canvas = ({ rectangles, onRectanglesChange, selectedRect, setSelectedRect,
       canvas.addEventListener("mousemove", handleMouseMove);
       canvas.addEventListener("mouseup", handleMouseUp);
 
-      // Add event listener for keyboard shortcuts
       window.addEventListener("keydown", handleKeyDown);
 
       return () => {
